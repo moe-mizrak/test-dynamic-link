@@ -2,11 +2,11 @@ name: Toggle README Image
 
 on:
   schedule:
-    # Every minute
-    - cron: '*/1 * * * *'
+    - cron: '*/1 * * * *' # every minute
+  workflow_dispatch:
 
 jobs:
-  update-readme:
+  toggle-image:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -14,10 +14,9 @@ jobs:
         with:
           ref: master
 
-      - name: Toggle image URL in README
+      - name: Toggle image in README
         run: |
-          #!/usr/bin/env bash
-          FILE=README.md
+          FILE="README.md"
           OLD="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.wallpapersafari.com%2F76%2F95%2FDT28IP.gif&f=1&nofb=1&ipt=a97ddd8f051f340dbb9cb4697beb64f022cec5dd68513590d629ff15a8a25832"
           NEW="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.tenor.com%2F6sMr16etjisAAAAC%2Fnature-scenery.gif&f=1&nofb=1&ipt=dce1111971ce949613daf9f091c0948e7d62ec7429fc7b0ffece8b724f5b6d68"
 
@@ -27,10 +26,12 @@ jobs:
             sed -i "s|$NEW|$OLD|g" "$FILE"
           fi
 
-      - name: Commit changes
+      - name: Commit and push if changed
         run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add README.md
-          git commit -m "ci: toggle README image" || echo "No changes to commit"
+          git diff --cached --quiet || git commit -m "ci: toggle dynamic image"
           git push origin master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
