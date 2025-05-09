@@ -1,0 +1,36 @@
+name: Toggle README Image
+
+on:
+  schedule:
+    # Every minute
+    - cron: '*/1 * * * *'
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          ref: master
+
+      - name: Toggle image URL in README
+        run: |
+          #!/usr/bin/env bash
+          FILE=README.md
+          OLD="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.wallpapersafari.com%2F76%2F95%2FDT28IP.gif&f=1&nofb=1&ipt=a97ddd8f051f340dbb9cb4697beb64f022cec5dd68513590d629ff15a8a25832"
+          NEW="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.tenor.com%2F6sMr16etjisAAAAC%2Fnature-scenery.gif&f=1&nofb=1&ipt=dce1111971ce949613daf9f091c0948e7d62ec7429fc7b0ffece8b724f5b6d68"
+
+          if grep -q "$OLD" "$FILE"; then
+            sed -i "s|$OLD|$NEW|g" "$FILE"
+          else
+            sed -i "s|$NEW|$OLD|g" "$FILE"
+          fi
+
+      - name: Commit changes
+        run: |
+          git add README.md
+          git commit -m "ci: toggle README image" || echo "No changes to commit"
+          git push origin master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
