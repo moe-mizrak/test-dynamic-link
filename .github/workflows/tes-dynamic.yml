@@ -21,9 +21,9 @@ jobs:
           NEW="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.tenor.com%2F6sMr16etjisAAAAC%2Fnature-scenery.gif&f=1&nofb=1&ipt=dce1111971ce949613daf9f091c0948e7d62ec7429fc7b0ffece8b724f5b6d68"
 
           if grep -q "$OLD" "$FILE"; then
-            sed -i "s|$OLD|$NEW|g" "$FILE"
+            sed -i "s|!\[dynamic-ad\]($OLD)|![dynamic-ad]($NEW)|" "$FILE"
           else
-            sed -i "s|$NEW|$OLD|g" "$FILE"
+            sed -i "s|!\[dynamic-ad\]($NEW)|![dynamic-ad]($OLD)|" "$FILE"
           fi
 
       - name: Commit and push if changed
