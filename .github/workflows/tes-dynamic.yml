@@ -2,7 +2,7 @@ name: Toggle README Image
 
 on:
   schedule:
-    - cron: '*/1 * * * *'  # every minute
+    - cron: '0 * * * *'  # every hour
   workflow_dispatch:
 
 jobs:
