@@ -8,3 +8,8 @@
 ![Jokes Card](https://readme-jokes.vercel.app/api)
 
 ![My Dynamic Vercel](https://test-vercel-git-feat-main-skeleton-moe-mizraks-projects.vercel.app/api?repo_url=https://github.com/moe-mizrak/laravel-openrouter)
+
+<a href="https://github.com/moe-mizrak/laravel-openrouter" target="_blank">
+  <img src="https://test-vercel.../api?repo_url=https://github.com/moe-mizrak/laravel-openrouter" />
+</a>
+
